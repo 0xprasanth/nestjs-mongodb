@@ -23,5 +23,6 @@ import {
   ],
   providers: [UserService],
   controllers: [UsersController],
+  exports: [UserService], // 👈 this is crucial
 })
 export class UserModule {}

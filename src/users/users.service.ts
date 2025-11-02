@@ -31,6 +31,13 @@ export class UserService {
     return this.userModel.find().populate(['settings', 'posts']).select('-__v');
   }
 
+  getByUsername(username: string) {
+    return this.userModel
+      .findOne({ username })
+      .populate(['settings', 'posts'])
+      .select('-__v');
+  }
+
   getUserById(id: string) {
     return this.userModel
       .findById(id)

@@ -11,6 +11,9 @@ export class User {
   @Prop({ required: true })
   displayName: string;
 
+  @Prop({ required: true })
+  password: string;
+
   @Prop({ required: false })
   avatarUrl?: string;
 
@@ -26,3 +29,16 @@ export class User {
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
+UserSchema.set('toJSON', {
+  transform: (doc, ret: any) => {
+    delete ret.password;
+    return ret;
+  },
+});
+
+UserSchema.set('toObject', {
+  transform: (doc, ret: any) => {
+    delete ret.password;
+    return ret;
+  },
+});
