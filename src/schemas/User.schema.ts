@@ -29,16 +29,16 @@ export class User {
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
-UserSchema.set('toJSON', {
-  transform: (doc, ret: any) => {
-    delete ret.password;
-    return ret;
-  },
-});
+// UserSchema.set('toJSON', {
+//   transform: (doc, ret: any) => {
+//     delete ret.password;
+//     return ret;
+//   },
+// });
 
-UserSchema.set('toObject', {
-  transform: (doc, ret: any) => {
-    delete ret.password;
-    return ret;
-  },
-});
+// UserSchema.set('toObject', {
+//   transform: (doc, ret: any) => {
+//     delete ret.password;
+//     return ret;
+//   },
+// });

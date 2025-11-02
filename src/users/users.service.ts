@@ -42,7 +42,7 @@ export class UserService {
     return this.userModel
       .findById(id)
       .populate(['settings', 'posts'])
-      .select('-__v');
+      .select('-__v -password');
   }
 
   updateUser(id: string, updateUserDto: UpdateUserDto) {
