@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/users/users.service';
 import { v4 as uuidv4 } from 'uuid';
@@ -17,9 +21,15 @@ export class AuthService {
   ) {}
 
   async authenticate(input: AuthInput) {
-    const user = await this.userService.getByUsername(input.username);
+    const user = await this.validateUser({
+      username: input.username,
+      password: input.password,
+    });
     if (!user) throw new UnauthorizedException();
-    const accessToken = await this.singIn({
+    // const user = await this.userService.getByUsername(input.username);
+    // if (!user) throw new NotFoundException();
+
+    const accessToken = await this.signIn({
       userId: user._id.toString(),
       username: user.username,
     });
@@ -31,17 +41,13 @@ export class AuthService {
   }
   async validateUser(input: AuthInput) {
     const user = await this.userService.getByUsername(input.username);
-
     if (user && user.password === input.password) {
-      return {
-        userId: user._id,
-        username: user.username,
-      };
+      return user;
     }
     return null;
   }
 
-  async singIn(user: SigninDto) {
+  async signIn(user: SigninDto) {
     const toknePayload = {
       sub: user.userId,
       username: user.username,
